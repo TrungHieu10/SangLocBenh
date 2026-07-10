@@ -1,0 +1,296 @@
+{
+  "info": {
+    "_postman_id": "medicalai-rag-collection",
+    "name": "MedicalAI RAG Engine",
+    "description": "Test Neo4j + RAG Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "RAG Engine Tests",
+      "item": [
+        {
+          "name": "1. Get Advice - Đái Tháo Đường",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/advice?disease=Đái tháo đường Type 2&riskScore=0.75",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "advice"],
+              "query": [
+                {
+                  "key": "disease",
+                  "value": "Đái tháo đường Type 2"
+                },
+                {
+                  "key": "riskScore",
+                  "value": "0.75"
+                }
+              ]
+            },
+            "description": "Lấy advice cho bệnh Đái tháo đường Type 2 với risk score 75%"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Get Advice - Bệnh Tim Mạch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/advice?disease=Bệnh Tim mạch&riskScore=0.8",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "advice"],
+              "query": [
+                {
+                  "key": "disease",
+                  "value": "Bệnh Tim mạch"
+                },
+                {
+                  "key": "riskScore",
+                  "value": "0.8"
+                }
+              ]
+            },
+            "description": "Lấy advice cho bệnh Tim mạch với risk score cao"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Get Advice - Đột Quỵ (Critical)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/advice?disease=Đột quỵ&riskScore=0.9",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "advice"],
+              "query": [
+                {
+                  "key": "disease",
+                  "value": "Đột quỵ"
+                },
+                {
+                  "key": "riskScore",
+                  "value": "0.9"
+                }
+              ]
+            },
+            "description": "Lấy advice cho bệnh Đột quỵ (nguy hiểm)"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Get Prevention Tips",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/prevention?disease=Đái tháo đường Type 2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "prevention"],
+              "query": [
+                {
+                  "key": "disease",
+                  "value": "Đái tháo đường Type 2"
+                }
+              ]
+            },
+            "description": "Lấy mẹo kiểm soát chỉ số cho bệnh"
+          },
+          "response": []
+        },
+        {
+          "name": "5. Get Lifestyle Recommendations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\"High Blood Glucose\", \"Obesity\"]"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/lifestyle-recommendations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "lifestyle-recommendations"]
+            },
+            "description": "Lấy khuyến nghị lối sống dựa trên yếu tố nguy hiểm"
+          },
+          "response": []
+        },
+        {
+          "name": "6. Submit Checkup + Get Advice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 45,\n  \"systolicBP\": 150,\n  \"diastolicBP\": 90,\n  \"heartRate\": 85,\n  \"temperature\": 36.5,\n  \"weight\": 85,\n  \"height\": 170,\n  \"bloodGlucose\": 180,\n  \"totalCholesterol\": 220,\n  \"ldl\": 140,\n  \"hdl\": 35,\n  \"triglycerides\": 200\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/submit",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "submit"]
+            },
+            "description": "Submit checkup → nhận AI predictions + advice từ Neo4j"
+          },
+          "response": []
+        },
+        {
+          "name": "7. Get Result + Advice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/clinical-rag/{checkupId}/result",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "clinical-rag", "{checkupId}", "result"]
+            },
+            "description": "Lấy kết quả checkup cùng advice - REPLACE {checkupId} với ID thực tế"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Neo4j Verification",
+      "item": [
+        {
+          "name": "Query: All Diseases",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"MATCH (d:Disease) RETURN d.name, d.id\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7687",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7687"
+            },
+            "description": "Neo4j Browser Query (run in Browser)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "YOUR_JWT_TOKEN",
+      "type": "string"
+    },
+    {
+      "key": "CHECKUP_ID",
+      "value": "replace-with-actual-id",
+      "type": "string"
+    }
+  ]
+}

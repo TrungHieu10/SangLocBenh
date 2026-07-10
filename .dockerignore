@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+**/.vs/
+node_modules/
+MedicalAI_Python/venv/
+medical-ai-web/node_modules/
+medical-ai-web/dist/
+.git/
+.vscode/

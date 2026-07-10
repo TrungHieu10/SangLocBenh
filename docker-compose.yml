@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: medical-ai-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${DB_PASSWORD:-Strong_Password123!}"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - medical-ai-network
+    restart: unless-stopped
+
+  neo4j-db:
+    image: neo4j:5.18.0
+    container_name: medical-ai-neo4j
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:-MatKhauNeo4j123}
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - medical-ai-network
+    restart: unless-stopped
+
+  python-ai:
+    build:
+      context: ./MedicalAI_Python
+      dockerfile: Dockerfile
+    container_name: medical-ai-python
+    depends_on:
+      - neo4j-db
+    environment:
+      - NEO4J_URI=bolt://neo4j-db:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-MatKhauNeo4j123}
+    networks:
+      - medical-ai-network
+    restart: unless-stopped
+
+  dotnet-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: medical-ai-dotnet
+    depends_on:
+      - db
+      - python-ai
+      - neo4j-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MedicalAIDb;User Id=sa;Password=${DB_PASSWORD:-Strong_Password123!};TrustServerCertificate=True;
+      - AIPredictionServer__BaseUrl=http://python-ai:8000/
+      - Neo4j__Uri=bolt://neo4j-db:7687
+      - Neo4j__Username=neo4j
+      - Neo4j__Password=${NEO4J_PASSWORD:-MatKhauNeo4j123}
+      - JwtSettings__SecretKey=${JWT_SECRET_KEY}
+      - EmailSettings__Password=${EMAIL_PASSWORD}
+      - OpenRouter__ApiKey=${OPENROUTER_API_KEY}
+    ports:
+      - "5000:8080"
+    volumes:
+      - avatar_data:/app/wwwroot/avatars
+    networks:
+      - medical-ai-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./medical-ai-web
+      dockerfile: Dockerfile
+      args:
+        - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID:-163287024254-lesff9837dcjjlltq7l06ul760c3r0m0.apps.googleusercontent.com}
+    container_name: medical-ai-frontend
+    depends_on:
+      - dotnet-api
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    networks:
+      - medical-ai-network
+    restart: unless-stopped
+
+networks:
+  medical-ai-network:
+    driver: bridge
+
+volumes:
+  sql_data:
+  neo4j_data:
+  avatar_data:

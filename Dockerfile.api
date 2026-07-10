@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy all project files and restore as distinct layers
+COPY ["MedicalAI.sln", "./"]
+COPY ["MedicalAI.API/MedicalAI.API.csproj", "MedicalAI.API/"]
+COPY ["MedicalAI.Core/MedicalAI.Core.csproj", "MedicalAI.Core/"]
+COPY ["MedicalAI.Infrastructure/MedicalAI.Infrastructure.csproj", "MedicalAI.Infrastructure/"]
+RUN dotnet restore "MedicalAI.sln"
+
+# Copy everything else and build
+COPY . .
+WORKDIR "/src/MedicalAI.API"
+RUN dotnet publish "MedicalAI.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_ENVIRONMENT=Docker
+# .NET 8 uses port 8080 by default inside containers
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "MedicalAI.API.dll"]

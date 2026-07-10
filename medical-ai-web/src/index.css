@@ -1,0 +1,228 @@
+/* Inter font loaded via index.html preconnect for optimal performance */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Design System — Dynamic Theme (Light & Dark) ===== */
+:root {
+  /* LIGHT THEME */
+  --c-midnight: 248 250 252; /* #f8fafc slate-50 */
+  --c-midnight-50: 241 245 249; /* #f1f5f9 */
+  --c-midnight-100: 255 255 255; /* #ffffff white card */
+  --c-midnight-200: 255 255 255; /* #ffffff elevated */
+  --c-midnight-300: 226 232 240; /* #e2e8f0 slate-200 */
+  --c-midnight-400: 203 213 225; /* #cbd5e1 slate-300 */
+  --c-midnight-500: 148 163 184; /* #94a3b8 */
+  
+  --c-glass: 15 23 42; /* #0f172a slate-900 */
+  --c-glass-50: 15 23 42; /* slate-900 */
+  --c-glass-100: 15 23 42; /* slate-900 */
+  --c-glass-200: 15 23 42; /* slate-900 */
+  --c-glass-300: 30 41 59; /* slate-800 */
+  --c-glass-400: 51 65 85; /* slate-700 */
+  --c-glass-500: 71 85 105; /* slate-600 */
+  --c-glass-600: 100 116 139; /* slate-500 */
+  
+  --c-cyan: 3 105 161; /* sky-700 */
+  --c-cyan-50: 224 242 254; /* sky-100 */
+  --c-cyan-400: 2 132 199; /* sky-600 */
+  --c-cyan-500: 3 105 161; /* sky-700 */
+  
+  --c-teal: 15 118 110; /* teal-700 */
+  --c-teal-50: 204 251 241; /* teal-100 */
+  --c-teal-400: 13 148 136; /* teal-600 */
+  --c-teal-500: 15 118 110; /* teal-700 */
+  
+  /* Components */
+  --bg-gradient-banner: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(13, 148, 136, 0.04) 50%, rgba(124, 58, 237, 0.06) 100%);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-elevated-bg: rgba(255, 255, 255, 1);
+  --border-glass: rgba(15, 23, 42, 0.15);
+  --border-glass-elevated: rgba(15, 23, 42, 0.2);
+  --medical-bg-color: #f8fafc;
+  --sidebar-bg-color: #ffffff;
+}
+
+.dark {
+  /* DARK THEME */
+  --c-midnight: 5 8 22; /* #050816 */
+  --c-midnight-50: 10 22 40; /* #0a1628 */
+  --c-midnight-100: 13 27 42; /* #0d1b2a */
+  --c-midnight-200: 17 34 64; /* #112240 */
+  --c-midnight-300: 26 47 78; /* #1a2f4e */
+  --c-midnight-400: 35 61 92; /* #233d5c */
+  --c-midnight-500: 45 74 106; /* #2d4a6a */
+  
+  --c-glass: 148 163 184; /* #94A3B8 */
+  --c-glass-50: 248 250 252; /* #f8fafc */
+  --c-glass-100: 241 245 249; /* #f1f5f9 */
+  --c-glass-200: 241 245 249; /* #f1f5f9 slate-100 */
+  --c-glass-300: 226 232 240; /* #e2e8f0 slate-200 */
+  --c-glass-400: 203 213 225; /* #cbd5e1 slate-300 */
+  --c-glass-500: 148 163 184; /* #94a3b8 slate-400 */
+  --c-glass-600: 100 116 139; /* #64748b slate-500 */
+  
+  --c-cyan: 0 212 255; /* #00D4FF */
+  --c-cyan-50: 230 250 255;
+  --c-cyan-400: 26 209 255; /* #1ad1ff */
+  --c-cyan-500: 0 212 255; /* #00D4FF */
+  
+  --c-teal: 0 245 212; /* #00F5D4 */
+  --c-teal-50: 230 255 249;
+  --c-teal-400: 26 255 201; /* #1affc9 */
+  --c-teal-500: 0 245 212; /* #00F5D4 */
+
+  /* Components */
+  --bg-gradient-banner: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 245, 212, 0.04) 50%, rgba(124, 58, 237, 0.06) 100%);
+  --glass-bg: rgba(13, 27, 42, 0.6);
+  --glass-elevated-bg: rgba(17, 34, 64, 0.7);
+  --border-glass: rgba(0, 212, 255, 0.08);
+  --border-glass-elevated: rgba(0, 212, 255, 0.12);
+  --medical-bg-color: #050816;
+  --sidebar-bg-color: linear-gradient(180deg, #0a1628 0%, #050816 100%);
+}
+
+/* ===== Base ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background: rgb(var(--c-midnight));
+  color: rgb(var(--c-glass-50));
+  line-height: 1.6;
+}
+
+/* ===== Scrollbar — Minimal ===== */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgb(var(--c-cyan) / 0.15); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-cyan) / 0.3); }
+
+/* ===== Selection ===== */
+::selection { background: rgb(var(--c-cyan) / 0.2); color: rgb(var(--c-glass-50)); }
+
+/* ===== Focus ===== */
+*:focus-visible {
+  outline: 1px solid rgb(var(--c-cyan));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== Component Layer ===== */
+@layer components {
+  /* Glass Card */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid var(--border-glass);
+  }
+
+  .glass-card-elevated {
+    background: var(--glass-elevated-bg);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid var(--border-glass-elevated);
+  }
+
+  /* Gradients */
+  .gradient-cyan-teal {
+    background: linear-gradient(135deg, #00D4FF 0%, #00F5D4 100%);
+  }
+
+  .gradient-blue-purple {
+    background: linear-gradient(135deg, #00D4FF 0%, #7C3AED 100%);
+  }
+
+  .gradient-dark {
+    background: var(--sidebar-bg-color);
+  }
+
+  .gradient-banner {
+    background: var(--bg-gradient-banner);
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    background: linear-gradient(135deg, #00D4FF, #00F5D4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-purple {
+    background: linear-gradient(135deg, #00D4FF, #7C3AED);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Medical Background */
+  .medical-bg {
+    background-color: var(--medical-bg-color);
+    background-image:
+      radial-gradient(at 100% 0%, rgba(var(--c-cyan), 0.04) 0%, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(var(--c-teal), 0.03) 0%, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(124, 58, 237, 0.02) 0%, transparent 60%);
+  }
+
+  /* Sidebar background */
+  .sidebar-bg {
+    background: var(--sidebar-bg-color);
+    border-right: 1px solid var(--border-glass);
+  }
+
+  /* Glow border on hover */
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 245, 212, 0.1), transparent);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .glow-border:hover::after { opacity: 1; }
+
+  /* Stagger delays */
+  .stagger-1 { animation-delay: 0.06s; }
+  .stagger-2 { animation-delay: 0.12s; }
+  .stagger-3 { animation-delay: 0.18s; }
+  .stagger-4 { animation-delay: 0.24s; }
+  .stagger-5 { animation-delay: 0.3s; }
+  .stagger-6 { animation-delay: 0.36s; }
+}
+
+/* ===== Toast Animations ===== */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+.animate-slide-in-right { animation: slide-in-right 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.animate-slide-out-right { animation: slide-out-right 0.3s ease-in forwards; }
+
+/* ===== Keyframes ===== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-3px); }
+  40%, 80% { transform: translateX(3px); }
+}
+.animate-shake { animation: shake 0.4s ease-in-out; }
+
+/* ===== Recharts Dark Override ===== */
+.recharts-cartesian-grid line { stroke: rgba(0, 212, 255, 0.06) !important; }
+.recharts-text { fill: #94A3B8 !important; font-size: 11px !important; }
