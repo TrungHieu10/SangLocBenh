@@ -1,43 +1,43 @@
-# Neo4j RAG Engine Setup Guide
+﻿# Neo4j RAG Engine Setup Guide
 
-## 📋 Tổng Quan
+## ðŸ“‹ Tá»•ng Quan
 
-Neo4j RAG (Retrieval Augmented Generation) Engine là một knowledge graph system để cung cấp advice và khuyến nghị y tế personalized cho bệnh nhân dựa trên AI predictions.
+Neo4j RAG (Retrieval Augmented Generation) Engine lÃ  má»™t knowledge graph system Ä‘á»ƒ cung cáº¥p advice vÃ  khuyáº¿n nghá»‹ y táº¿ personalized cho bá»‡nh nhÃ¢n dá»±a trÃªn AI predictions.
 
-## 🏗️ Architecture
+## ðŸ—ï¸ Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│              User Input (Health Data)               │
-└──────────────────┬──────────────────────────────────┘
-                   │
-                   ▼
-        ┌──────────────────────┐
-        │   C# Backend API     │
-        └──────────┬───────────┘
-                   │
-        ┌──────────▼───────────┐
-        │   Python AI Model    │  ◄─ Predictions
-        │  (XGBoost + SHAP)    │
-        └──────────┬───────────┘
-                   │
-        ┌──────────▼───────────┐
-        │   RAG Engine         │
-        │  (ClinicalService)   │
-        └──────────┬───────────┘
-                   │
-        ┌──────────▼───────────┐
-        │   Neo4j Knowledge    │  ◄─ Advice + Recommendations
-        │      Graph           │
-        └──────────┬───────────┘
-                   │
-        ┌──────────▼───────────┐
-        │   Frontend           │  ◄─ AdviceCard Display
-        │   (React)            │
-        └──────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              User Input (Health Data)               â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+                   â–¼
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚   C# Backend API     â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚   Python AI Model    â”‚  â—„â”€ Predictions
+        â”‚  (XGBoost + SHAP)    â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚   RAG Engine         â”‚
+        â”‚  (ClinicalService)   â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚   Neo4j Knowledge    â”‚  â—„â”€ Advice + Recommendations
+        â”‚      Graph           â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                   â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚   Frontend           â”‚  â—„â”€ Advice Display
+        â”‚   (React)            â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-## 🚀 Installation & Setup
+## ðŸš€ Installation & Setup
 
 ### 1. Neo4j Database Setup
 
@@ -67,7 +67,7 @@ dotnet add package Neo4j.Driver
 ```csharp
 using MedicalAI.Infrastructure;
 
-var builder = WebApplicationBuilder.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add RAG services
 builder.Services.AddNeo4jRagServices(
@@ -79,8 +79,19 @@ builder.Services.AddNeo4jRagServices(
 
 var app = builder.Build();
 
-// Initialize Knowledge Graph
-await app.Services.InitializeNeo4jKnowledgeGraphAsync();
+// Initialize Neo4j Knowledge Graph
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        await scope.ServiceProvider.InitializeNeo4jKnowledgeGraphAsync();
+        Console.WriteLine("âœ… Neo4j Knowledge Graph initialized");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"âš ï¸ Neo4j initialization: {ex.Message}");
+    }
+}
 
 app.Run();
 ```
@@ -97,7 +108,7 @@ app.Run();
 }
 ```
 
-## 📊 Knowledge Graph Structure
+## ðŸ“Š Knowledge Graph Structure
 
 ### Nodes
 
@@ -151,7 +162,7 @@ Disease -[:HAS_PREVENTION]-> Prevention
 RiskFactor -[:HAS_LIFESTYLE_RECOMMENDATION]-> LifestyleRecommendation
 ```
 
-## 🔌 API Endpoints
+## ðŸ”Œ API Endpoints
 
 ### 1. Submit Checkup with Advice
 ```
@@ -237,7 +248,7 @@ Response:
 }
 ```
 
-## 💻 Frontend Integration
+## ðŸ’» Frontend Integration
 
 ### Update ResultDashboard.jsx
 
@@ -274,7 +285,7 @@ export const AdviceCard = ({ advice, preventionTips, lifestyleRecommendations })
         <ul className="space-y-2">
           {advice?.map((item, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span className="text-blue-600">💊</span>
+              <span className="text-blue-600">ðŸ’Š</span>
               <span>{item}</span>
             </li>
           ))}
@@ -287,7 +298,7 @@ export const AdviceCard = ({ advice, preventionTips, lifestyleRecommendations })
         <ul className="space-y-2">
           {preventionTips?.map((item, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span className="text-green-600">✓</span>
+              <span className="text-green-600">âœ“</span>
               <span>{item}</span>
             </li>
           ))}
@@ -300,7 +311,7 @@ export const AdviceCard = ({ advice, preventionTips, lifestyleRecommendations })
         <ul className="space-y-2">
           {lifestyleRecommendations?.map((item, idx) => (
             <li key={idx} className="flex items-start gap-2">
-              <span className="text-orange-600">🎯</span>
+              <span className="text-orange-600">ðŸŽ¯</span>
               <span>{item}</span>
             </li>
           ))}
@@ -311,7 +322,7 @@ export const AdviceCard = ({ advice, preventionTips, lifestyleRecommendations })
 };
 ```
 
-## 🧪 Testing
+## ðŸ§ª Testing
 
 ### Query Neo4j Browser
 
@@ -335,7 +346,7 @@ RETURN rf, lr
 MATCH (n) RETURN labels(n), count(*) as count
 ```
 
-## 🔧 Troubleshooting
+## ðŸ”§ Troubleshooting
 
 ### Connection Error
 ```
@@ -355,7 +366,7 @@ Solution: Check if disease name matches exactly in DB
 Use: SELECT DISTINCT disease FROM predictions
 ```
 
-## 📈 Extending the Knowledge Graph
+## ðŸ“ˆ Extending the Knowledge Graph
 
 ### Add New Disease
 
@@ -387,14 +398,14 @@ var query = @"
 await _session.RunAsync(query);
 ```
 
-## 📚 References
+## ðŸ“š References
 
 - Neo4j Documentation: https://neo4j.com/docs/
 - Cypher Query Language: https://neo4j.com/docs/cypher-manual/
 - Neo4j .NET Driver: https://github.com/neo4j/neo4j-dotnet-driver
 - RAG Pattern: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
 To extend the RAG system:
 1. Add new node types to Neo4jService
@@ -406,3 +417,4 @@ To extend the RAG system:
 
 **Last Updated**: May 25, 2026
 **Maintainer**: MedicalAI Team
+

@@ -1,15 +1,17 @@
-# 🚀 QUICK START: Neo4j + C# Backend Integration
+﻿# ðŸš€ QUICK START: Neo4j + C# Backend Integration
 
-## ⏱️ Bước 1: Configuration (2 phút)
+> ðŸ’¡ **LÆ°u Ã½ vá» Port**: Khi cháº¡y local (`dotnet run`), API sá»­ dá»¥ng port **5182**. Khi cháº¡y qua Docker, API sá»­ dá»¥ng port **5000**.
 
-### 1.1 Mở file `appsettings.json`
+## â±ï¸ BÆ°á»›c 1: Configuration (2 phÃºt)
 
-**Path**: `d:\DA\MedicalAI.API\appsettings.json`
+### 1.1 Má»Ÿ file `appsettings.json`
+
+**Path**: `d:\DATN\MedicalAIDb.API\appsettings.json`
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=medicalai;Trusted_Connection=true;"
+    "DefaultConnection": "Server=localhost;Database=MedicalAIDbDb;Trusted_Connection=true;"
   },
   "Neo4j": {
     "Uri": "neo4j://localhost:7687",
@@ -25,32 +27,32 @@
 }
 ```
 
-💡 **Quan trọng**: Thay `password` bằng password của Neo4j instance của bạn
+ðŸ’¡ **Quan trá»ng**: Thay `password` báº±ng password cá»§a Neo4j instance cá»§a báº¡n
 
-## ⏱️ Bước 2: Khởi động API (3 phút)
+## â±ï¸ BÆ°á»›c 2: Khá»Ÿi Ä‘á»™ng API (3 phÃºt)
 
-### 2.1 Mở PowerShell
+### 2.1 Má»Ÿ PowerShell
 
 ```powershell
-cd d:\DA\MedicalAI.API
+cd d:\DATN\MedicalAIDb.API
 dotnet restore      # Download packages
 dotnet run          # Start API
 ```
 
-✅ Khi thấy `Now listening on: http://localhost:5000` → Success!
+âœ… Khi tháº¥y `Now listening on: http://localhost:5182` â†’ Success! (hoáº·c `:5000` náº¿u cháº¡y qua Docker)
 
-### 2.2 Kiểm tra Swagger
+### 2.2 Kiá»ƒm tra Swagger
 
-Browser: `http://localhost:5000/swagger/index.html`
+Browser: `http://localhost:5182/swagger/index.html` (hoáº·c port 5000 náº¿u dÃ¹ng Docker)
 
-Phải thấy danh sách endpoints:
+Pháº£i tháº¥y danh sÃ¡ch endpoints:
 - `POST /api/clinical-rag/submit`
 - `GET /api/clinical-rag/advice`
 - etc.
 
-## ⏱️ Bước 3: Lấy JWT Token (2 phút)
+## â±ï¸ BÆ°á»›c 3: Láº¥y JWT Token (2 phÃºt)
 
-### 3.1 Login để lấy token
+### 3.1 Login Ä‘á»ƒ láº¥y token
 
 **PowerShell:**
 ```powershell
@@ -59,22 +61,22 @@ $body = @{
     password = "password123"
 } | ConvertTo-Json
 
-Invoke-WebRequest -Uri "http://localhost:5000/api/auth/login" `
+Invoke-WebRequest -Uri "http://localhost:5182/api/auth/login" `
     -Method POST `
     -Headers @{"Content-Type"="application/json"} `
     -Body $body | ConvertFrom-Json
 ```
 
-Hoặc **cURL:**
+Hoáº·c **cURL:**
 ```bash
-curl -X POST http://localhost:5000/api/auth/login \
+curl -X POST http://localhost:5182/api/auth/login \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"user@example.com\",\"password\":\"password123\"}"
 ```
 
-✅ Copy token từ response: `{"token": "eyJhbGciOi..."}`
+âœ… Copy token tá»« response: `{"token": "eyJhbGciOi..."}`
 
-## ⏱️ Bước 4: Test Endpoints (5 phút)
+## â±ï¸ BÆ°á»›c 4: Test Endpoints (5 phÃºt)
 
 ### 4.1 Test 1: Get Advice
 
@@ -84,17 +86,17 @@ $headers = @{
     "Authorization" = "Bearer YOUR_TOKEN_HERE"
 }
 
-Invoke-WebRequest -Uri "http://localhost:5000/api/clinical-rag/advice?disease=Đái tháo đường Type 2&riskScore=0.75" `
+Invoke-WebRequest -Uri "http://localhost:5182/api/clinical-rag/advice?disease=ÄÃ¡i thÃ¡o Ä‘Æ°á»ng Type 2&riskScore=0.75" `
     -Headers $headers | ConvertFrom-Json | ConvertTo-Json -Depth 10
 ```
 
-✅ Phải nhận response:
+âœ… Pháº£i nháº­n response:
 ```json
 {
   "success": true,
   "advice": [
-    "Cắt giảm đường tinh luyện, uống nhiều nước...",
-    "Cần giảm cân khẩn cấp..."
+    "Cáº¯t giáº£m Ä‘Æ°á»ng tinh luyá»‡n, uá»‘ng nhiá»u nÆ°á»›c...",
+    "Cáº§n giáº£m cÃ¢n kháº©n cáº¥p..."
   ]
 }
 ```
@@ -123,13 +125,13 @@ $headers = @{
     "Content-Type" = "application/json"
 }
 
-Invoke-WebRequest -Uri "http://localhost:5000/api/clinical-rag/submit" `
+Invoke-WebRequest -Uri "http://localhost:5182/api/clinical-rag/submit" `
     -Method POST `
     -Headers $headers `
     -Body $body | ConvertFrom-Json | ConvertTo-Json -Depth 10
 ```
 
-✅ Response phải chứa:
+âœ… Response pháº£i chá»©a:
 - `checkupId`
 - `predictions` (list diseases)
 - `advice` (from Neo4j)
@@ -139,140 +141,140 @@ Invoke-WebRequest -Uri "http://localhost:5000/api/clinical-rag/submit" `
 
 **PowerShell:**
 ```powershell
-# Lấy checkupId từ bước trước
+# Láº¥y checkupId tá»« bÆ°á»›c trÆ°á»›c
 $checkupId = "uuid-from-previous-response"
 
 $headers = @{
     "Authorization" = "Bearer YOUR_TOKEN_HERE"
 }
 
-Invoke-WebRequest -Uri "http://localhost:5000/api/clinical-rag/$checkupId/result" `
+Invoke-WebRequest -Uri "http://localhost:5182/api/clinical-rag/$checkupId/result" `
     -Headers $headers | ConvertFrom-Json | ConvertTo-Json -Depth 10
 ```
 
-## ⏱️ Bước 5: Kiểm tra Neo4j Data (2 phút)
+## â±ï¸ BÆ°á»›c 5: Kiá»ƒm tra Neo4j Data (2 phÃºt)
 
 ### 5.1 Neo4j Browser
 
-Browser: `http://localhost:7687`
+Browser: `http://localhost:7474`
 
 Login: `neo4j` / `password`
 
-### 5.2 Chạy Queries
+### 5.2 Cháº¡y Queries
 
 **Query 1: Count Nodes**
 ```cypher
 MATCH (n) RETURN labels(n) as type, count(*) as count;
 ```
 
-Kỳ vọng:
-- Disease: 5
-- Indicator: 9
+Ká»³ vá»ng:
+- Disease: 6
+- RiskFactor: 8
 - Advice: 6
 - Total: 20
 
 **Query 2: Get Advice cho Diabetes**
 ```cypher
-MATCH (d:Disease {name: "Đái tháo đường Type 2"})-[:HAS_ADVICE_FOR]->(a:Advice)
+MATCH (d:Disease {name: "ÄÃ¡i thÃ¡o Ä‘Æ°á»ng Type 2"})-[:HAS_ADVICE]->(a:Advice)
 RETURN a.content;
 ```
 
-Kỳ vọng: 2 advice nodes
+Ká»³ vá»ng: 2 advice nodes
 
-**Query 3: Get Indicators**
+**Query 3: Get Risk Factors**
 ```cypher
-MATCH (i:Indicator)-[:INDICATES_RISK_OF]->(d:Disease {name: "Đái tháo đường Type 2"})
-RETURN i.label, i.name;
+MATCH (rf:RiskFactor)-[:INDICATES_RISK_OF]->(d:Disease {name: "ÄÃ¡i thÃ¡o Ä‘Æ°á»ng Type 2"})
+RETURN rf.label, rf.name;
 ```
 
-Kỳ vọng: 2 indicators (BloodGlucoseLevel, HbA1c)
+Ká»³ vá»ng: 2 risk factors (BloodGlucoseLevel, HbA1c)
 
-## ✅ Troubleshooting
+## âœ… Troubleshooting
 
-### ❌ Error: "Cannot connect to Neo4j"
+### âŒ Error: "Cannot connect to Neo4j"
 ```
 Solution:
-1. Kiểm tra Neo4j running: docker ps
-2. Kiểm tra port: netstat -an | findstr 7687
+1. Kiá»ƒm tra Neo4j running: docker ps
+2. Kiá»ƒm tra port: netstat -an | findstr 7687
 3. Verify credentials trong appsettings.json
 ```
 
-### ❌ Error: "No advice returned"
+### âŒ Error: "No advice returned"
 ```
 Solution:
-1. Neo4j Browser → kiểm tra diseases tồn tại
-2. Disease names phải match: "Đái tháo đường Type 2" (case-sensitive)
-3. Query: MATCH (d:Disease)-[:HAS_ADVICE_FOR]->(a:Advice) RETURN count(*)
+1. Neo4j Browser â†’ kiá»ƒm tra diseases tá»“n táº¡i
+2. Disease names pháº£i match: "ÄÃ¡i thÃ¡o Ä‘Æ°á»ng Type 2" (case-sensitive)
+3. Query: MATCH (d:Disease)-[:HAS_ADVICE]->(a:Advice) RETURN count(*)
 ```
 
-### ❌ Error: "401 Unauthorized"
+### âŒ Error: "401 Unauthorized"
 ```
 Solution:
-1. Đảm bảo token được add vào Authorization header
+1. Äáº£m báº£o token Ä‘Æ°á»£c add vÃ o Authorization header
 2. Token format: "Bearer YOUR_TOKEN_HERE"
-3. Token có thể hết hạn → re-login
+3. Token cÃ³ thá»ƒ háº¿t háº¡n â†’ re-login
 ```
 
-### ❌ Error: "500 Internal Server Error"
+### âŒ Error: "500 Internal Server Error"
 ```
 Solution:
-1. Kiểm tra console logs trong PowerShell
+1. Kiá»ƒm tra console logs trong PowerShell
 2. Verify database connection string
-3. Ensure database "medicalai" exists
+3. Ensure database "MedicalAIDbDb" exists
 ```
 
-## 📊 Expected Workflow
+## ðŸ“Š Expected Workflow
 
 ```
-┌─────────────────────────────────────┐
-│   1. Khởi động API (dotnet run)    │
-└────────────────┬────────────────────┘
-                 │
-┌────────────────▼────────────────────┐
-│   2. Login → Lấy JWT Token          │
-└────────────────┬────────────────────┘
-                 │
-┌────────────────▼────────────────────┐
-│   3. Call /api/clinical-rag/submit  │
-│      (submit health data)           │
-└────────────────┬────────────────────┘
-                 │
-        ┌────────▼────────┐
-        │ C# API         │
-        │ - Call Python  │
-        │   AI model     │
-        │ - Query Neo4j  │
-        │   for advice   │
-        └────────┬────────┘
-                 │
-┌────────────────▼────────────────────┐
-│   4. Receive Response               │
-│   - AI Predictions                  │
-│   - Neo4j Advice                    │
-│   - Risk Level                      │
-└────────────────┬────────────────────┘
-                 │
-┌────────────────▼────────────────────┐
-│   5. Frontend Display               │
-│   - ResultDashboard component       │
-│   - AdviceCard with real advice     │
-└─────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   1. Khá»Ÿi Ä‘á»™ng API (dotnet run)    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   2. Login â†’ Láº¥y JWT Token          â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   3. Call /api/clinical-rag/submit  â”‚
+â”‚      (submit health data)           â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚
+        â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”
+        â”‚ C# API         â”‚
+        â”‚ - Call Python  â”‚
+        â”‚   AI model     â”‚
+        â”‚ - Query Neo4j  â”‚
+        â”‚   for advice   â”‚
+        â””â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   4. Receive Response               â”‚
+â”‚   - AI Predictions                  â”‚
+â”‚   - Neo4j Advice                    â”‚
+â”‚   - Risk Level                      â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   5. Frontend Display               â”‚
+â”‚   - ResultDashboard component       â”‚
+â”‚   - Advice display                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-## 🎯 Next Steps
+## ðŸŽ¯ Next Steps
 
-✅ Bước 1: Configuration
-✅ Bước 2: Run API
-✅ Bước 3: Get Token
-✅ Bước 4: Test Endpoints
-✅ Bước 5: Verify Neo4j
+âœ… BÆ°á»›c 1: Configuration
+âœ… BÆ°á»›c 2: Run API
+âœ… BÆ°á»›c 3: Get Token
+âœ… BÆ°á»›c 4: Test Endpoints
+âœ… BÆ°á»›c 5: Verify Neo4j
 
-🔄 Bước 6 (Frontend): 
+ðŸ”„ BÆ°á»›c 6 (Frontend): 
 - Update `usePrediction` hook
 - Update `ResultDashboard` component
 - Test end-to-end
 
-## 📋 Checklist
+## ðŸ“‹ Checklist
 
 - [ ] `appsettings.json` configured
 - [ ] API started successfully
@@ -287,6 +289,7 @@ Solution:
 
 ---
 
-**Status**: 🚀 Ready to integrate with frontend!
+**Status**: ðŸš€ Ready to integrate with frontend!
 
 **If stuck**: Check logs in PowerShell console for error messages
+

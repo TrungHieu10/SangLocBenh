@@ -16,6 +16,7 @@ yarn-error.log
 .next/
 out/
 build/
+dist/
 
 # C# / .NET
 [Bb]in/
@@ -26,6 +27,7 @@ build/
 *.sln.docstates
 packages/
 *.suo
+*.lscache
 
 # Python
 __pycache__/
@@ -35,3 +37,19 @@ venv/
 env/
 .venv/
 .pytest_cache/
+
+# Model files (too large for Git)
+*.pkl
+
+# Training data (too large for Git)
+Train AI/data/
+MedicalAI_Python/test data/
+
+# Binary document templates
+Mẫu KQ XN/
+
+# IDE
+.idea/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/

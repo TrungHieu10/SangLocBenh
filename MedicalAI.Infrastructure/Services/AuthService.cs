@@ -165,7 +165,7 @@ public class AuthService : IAuthService
             var settings = new GoogleJsonWebSignature.ValidationSettings
             {
                 // Thay thế bằng Client ID thực tế mà user đã cung cấp
-                Audience = new[] { "163287024254-lesff9837dcjjlltq7l06ul760c3r0m0.apps.googleusercontent.com" }
+                Audience = new[] { _config["GoogleAuth:ClientId"] }
             };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, settings);

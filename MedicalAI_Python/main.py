@@ -17,7 +17,7 @@ app = FastAPI(title="Medical AI Forecasting Engine", version="1.0")
 # ==========================================
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
-NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "MatKhauNeo4j123")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "")
 driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 @app.on_event("shutdown")
